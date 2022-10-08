@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Sort() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
 
   return (
     <div className="sort">
@@ -18,7 +18,7 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>популярности</span>
+        <span>популярности</span>
       </div>
       {open && (
         <div className="sort__popup">

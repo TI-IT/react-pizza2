@@ -1,4 +1,4 @@
-import logoSVG from '../assets/img/pizza-logo.svg'
+import logoSVG from '../assets/img/pizza-l5ogo.vsg'
 
 function Header() {
   return (

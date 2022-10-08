@@ -17,6 +17,7 @@ function Categories() {
             onClick={() => onClickCategory(i)}
             className={activeIndex === i ? 'active' : ''}>
             {value}
+            {console.log(value.i)}
           </li>
         ))}
       </ul>
