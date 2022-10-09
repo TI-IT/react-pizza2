@@ -9,7 +9,6 @@ const Home = () => {
   const [items, setItems] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
 
-  //Загрузка один раз
   React.useEffect(() => {
     fetch('https://63427733ba4478d4783c44ef.mockapi.io/items')
       .then(res => {

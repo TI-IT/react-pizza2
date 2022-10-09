@@ -14,21 +14,13 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
-
-  @media (max-width: 645px) {
-    width: calc(100vw - 30px);
-    margin-top: 15px;
-  }
 }
 
 .content {
   padding: 40px 0;
 
   &__title {
-    font-weight: 800;
-    font-size: 38px;
-    margin-top: 60px;
-    margin-bottom: 50px;
+    margin: 35px 0;
   }
 
   &__items {
@@ -58,7 +50,7 @@ body {
     @media (max-width: 1260px) {
       .categories {
         width: 100%;
-        overflow: auto;
+        overflow: scroll;
         ul {
           width: 785px;
         }
@@ -75,7 +67,7 @@ body {
       .categories {
         ul {
           li {
-            padding: 6px 10px;
+            padding: 6px 15px;
           }
         }
       }
@@ -157,10 +149,6 @@ body {
         color: darken($color: #b6b6b6, $amount: 50);
       }
     }
-  }
-
-  .content__items {
-    display: block;
   }
 
   &__item {
