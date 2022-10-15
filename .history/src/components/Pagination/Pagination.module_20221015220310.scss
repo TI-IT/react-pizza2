@@ -1,0 +1,16 @@
+.root {
+  li {
+    display: inline-block;
+    text-align: center;
+    width: 40px;
+    line-height: 38px;
+    height: 40px;
+    border: 1px solid #fe5f1e;
+    border-radius: 20px;
+    margin-right: 10px;
+
+    a {
+      display: inline-block;
+    }
+  }
+}
