@@ -3,9 +3,13 @@ import styles from './Search.module.scss'
 import { SearchContext } from '../../App'
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext)
+  const { searchValue, setSearchValue, tt } = React.useContext(SearchContext)
   return (
     <div className={styles.root}>
+      <h1>
+        {tt.name}br
+        {tt.id}
+      </h1>
       <svg
         className={styles.icon}
         height="24"

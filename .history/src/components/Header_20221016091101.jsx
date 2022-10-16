@@ -15,7 +15,7 @@ function Header() {
             </div>
           </div>
         </Link>
-        <Search />
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
 
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
