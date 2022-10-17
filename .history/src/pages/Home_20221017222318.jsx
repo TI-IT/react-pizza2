@@ -20,6 +20,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
   const onChangeCategory = id => {
+    console.log(id)
     dispatch(setCategoryId(id))
   }
 
@@ -42,7 +43,7 @@ const Home = () => {
         setIsLoading(false)
       })
     window.scrollTo(0, 0) // при первой загрузке скролит вверх
-  }, [categoryId, sort.sortProperty, searchValue, currentPage])
+  }, [categoryId, sortType, searchValue, currentPage])
 
   const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
 

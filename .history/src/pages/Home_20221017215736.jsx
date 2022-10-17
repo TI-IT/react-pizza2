@@ -12,7 +12,8 @@ import { SearchContext } from '../App'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { categoryId, sort } = useSelector(state => state.filter)
+  const categoryId = useSelector(state => state.filter.categoryId)
+  console.log('redux-state', categoryId)
 
   const { searchValue } = React.useContext(SearchContext)
   const [items, setItems] = React.useState([])
@@ -20,14 +21,15 @@ const Home = () => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
   const onChangeCategory = id => {
+    console.log(id)
     dispatch(setCategoryId(id))
   }
 
   //Загрузка один раз
   React.useEffect(() => {
     setIsLoading(true)
-    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
-    const sortBy = sort.sortProperty.replace('-', '')
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+    const sortBy = sortType.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
@@ -42,7 +44,7 @@ const Home = () => {
         setIsLoading(false)
       })
     window.scrollTo(0, 0) // при первой загрузке скролит вверх
-  }, [categoryId, sort.sortProperty, searchValue, currentPage])
+  }, [categoryId, sortType, searchValue, currentPage])
 
   const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
 

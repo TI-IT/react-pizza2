@@ -20,6 +20,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
   const onChangeCategory = id => {
+    console.log(id)
     dispatch(setCategoryId(id))
   }
 
