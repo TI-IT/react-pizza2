@@ -59,7 +59,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
+      <Pagination value={currentPage} onChangePage={onChangePage} />
     </div>
   )
 }

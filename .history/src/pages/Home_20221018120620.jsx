@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
+import { setCategoryId, setPageCount } from '../redux/slices/filterSlice'
 
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
@@ -13,7 +13,7 @@ import { SearchContext } from '../App'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { categoryId, sort, currentPage } = useSelector(state => state.filter)
+  const { categoryId, sort, pageCount } = useSelector(state => state.filter)
 
   const { searchValue } = React.useContext(SearchContext)
   const [items, setItems] = React.useState([])
@@ -24,7 +24,7 @@ const Home = () => {
     dispatch(setCategoryId(id))
   }
   const onChangePage = number => {
-    dispatch(setCurrentPage(number))
+    dispatch(setPageCount(number))
   }
 
   //Загрузка один раз
@@ -45,7 +45,7 @@ const Home = () => {
       })
 
     window.scrollTo(0, 0) // при первой загрузке скролит вверх
-  }, [categoryId, sort.sortProperty, searchValue, currentPage])
+  }, [categoryId, sort.sortProperty, searchValue, pageCount])
 
   const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
 
@@ -59,7 +59,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
+      <Pagination value={pageCount} onChangePage={onChangePage} />
     </div>
   )
 }

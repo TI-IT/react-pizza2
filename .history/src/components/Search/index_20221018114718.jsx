@@ -10,14 +10,13 @@ const Search = () => {
 
   const onClickClear = () => {
     setSearchValue('')
-    setValue('')
     inputRef.current.focus()
   }
 
   const updateSearchValue = React.useCallback(
     debounce(str => {
       setSearchValue(str)
-    }, 350),
+    }, 1000),
     []
   )
 
@@ -43,7 +42,7 @@ const Search = () => {
         className={styles.input}
         placeholder="Поиск пиццы..."
       />
-      {value && (
+      {searchValue && (
         <svg
           onClick={onClickClear}
           className={styles.clearIcon}

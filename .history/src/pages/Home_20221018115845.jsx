@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
+import { setCategoryId } from '../redux/slices/filterSlice'
 
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
@@ -13,7 +13,7 @@ import { SearchContext } from '../App'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { categoryId, sort, currentPage } = useSelector(state => state.filter)
+  const { categoryId, sort } = useSelector(state => state.filter)
 
   const { searchValue } = React.useContext(SearchContext)
   const [items, setItems] = React.useState([])
@@ -23,9 +23,6 @@ const Home = () => {
   const onChangeCategory = id => {
     dispatch(setCategoryId(id))
   }
-  const onChangePage = number => {
-    dispatch(setCurrentPage(number))
-  }
 
   //Загрузка один раз
   React.useEffect(() => {
@@ -34,6 +31,17 @@ const Home = () => {
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
+
+    // fetch(
+    //   `https://63427733ba4478d4783c44ef.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+    // )
+    //   .then(res => {
+    //     return res.json()
+    //   })
+    //   .then(arr => {
+    //     setItems(arr)
+    //     setIsLoading(false)
+    //   })
 
     axios
       .get(
@@ -59,7 +67,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
+      <Pagination onChangePage={number => setCurrentPage(number)} />
     </div>
   )
 }
