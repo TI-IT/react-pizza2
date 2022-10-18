@@ -40,7 +40,7 @@ function Sort() {
       {open && (
         <div className="sort__popup">
           <ul>
-            {sortList.map((obj, i) => (
+            {list.map((obj, i) => (
               <li
                 key={i}
                 onClick={() => onClickListItem(obj)}

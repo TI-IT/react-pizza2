@@ -49,27 +49,8 @@ const Home = () => {
       })
   }
 
-  //***---React Pizza v2 — Сохраняем параметры фильтрации в URL---***
-  //шаг 2
-  //Если изменили параметры и был первый рендер
-  React.useEffect(() => {
-    if (isMaunted.current) {
-      const queryString = qs.stringify({
-        sortProperty: sort.sortProperty,
-        categoryId,
-        currentPage
-      })
-      navigate(`?${queryString}`)
-    }
-    isMaunted.current = true
-  }, [categoryId, sort.sortProperty, currentPage])
-
-  //***---React Pizza v2 — Сохраняем параметры фильтрации в URL---***
-  //шаг 1
-  //Если был первый рендер, то проверяем URL-параметры и сохроняем в редуксе
   React.useEffect(() => {
     if (window.location.search) {
-      //параметры адресной строки преврощаем в объект -qs.parse
       const params = qs.parse(window.location.search.substring(1))
       const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
       dispatch(
@@ -84,9 +65,6 @@ const Home = () => {
   }, [])
 
   //Загрузка один раз
-  //***---React Pizza v2 — Сохраняем параметры фильтрации в URL---***
-  //шаг 3
-  //Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
     window.scrollTo(0, 0) // при первой загрузке скролит вверх
 
@@ -95,6 +73,18 @@ const Home = () => {
     }
     isSearch.current = false
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
+
+  React.useEffect(() => {
+    if (isMaunted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage
+      })
+      navigate(`?${queryString}`)
+    }
+    isMaunted.current = true
+  }, [categoryId, sort.sortProperty, currentPage])
 
   const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
 
