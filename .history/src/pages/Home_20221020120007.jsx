@@ -10,8 +10,8 @@ import Sort, { sortList } from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Pagination from '../components/Pagination'
+import axios from 'axios'
 import { SearchContext } from '../App'
-import { fetchPizzas } from '../redux/slices/pizzaSlice'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -19,33 +19,36 @@ const Home = () => {
   const isSearch = React.useRef(false)
   const isMaunted = React.useRef(false)
 
-  const { items, status } = useSelector(state => state.pizza)
   const { categoryId, sort, currentPage } = useSelector(state => state.filter)
+
   const { searchValue } = React.useContext(SearchContext)
+  const [items, setItems] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(true)
 
   const onChangeCategory = id => {
     dispatch(setCategoryId(id))
   }
-  const onChangePage = number => {
-    dispatch(setCurrentPage(number))
+  const onChangePage = page => {
+    dispatch(setCurrentPage(page))
   }
 
-  const getPizzas = async () => {
+  const fetchPizzas = async () => {
+    setIsLoading(true)
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    dispatch(
-      fetchPizzas({
-        order,
-        sortBy,
-        category,
-        search,
-        currentPage
+    axios
+      .get(
+        `https://63427733ba4478d4783c44ef.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then(res => {
+        setItems(res.data)
+        setIsLoading(false)
+        console.log(11111)
       })
-    )
-
+    console.log(22222)
     window.scrollTo(0, 0)
   }
 
@@ -88,10 +91,16 @@ const Home = () => {
   //шаг 3
   //Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
-    getPizzas()
+    window.scrollTo(0, 0) // при первой загрузке скролит вверх
+
+    if (!isSearch.current) {
+      fetchPizzas()
+    }
+    isSearch.current = false
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
   const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
+
   const sceletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
   return (
@@ -101,14 +110,7 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {status === 'error' ? (
-        <div className="content__error-info">
-          <h2>Произошла Ошибка</h2>
-          <p>Не удалось получить пиццы, попробуйте повторить попытку позже</p>
-        </div>
-      ) : (
-        <div className="content__items">{status === 'loading' ? sceletons : pizzas}</div>
-      )}
+      <div className="content__items">{isLoading ? sceletons : pizzas}</div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   )

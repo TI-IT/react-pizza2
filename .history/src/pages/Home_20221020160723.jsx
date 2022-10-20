@@ -19,8 +19,8 @@ const Home = () => {
   const isSearch = React.useRef(false)
   const isMaunted = React.useRef(false)
 
-  const { items, status } = useSelector(state => state.pizza)
   const { categoryId, sort, currentPage } = useSelector(state => state.filter)
+  const { items } = useSelector(state => state.pizza)
   const { searchValue } = React.useContext(SearchContext)
 
   const onChangeCategory = id => {
@@ -36,15 +36,22 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    dispatch(
-      fetchPizzas({
-        order,
-        sortBy,
-        category,
-        search,
-        currentPage
-      })
-    )
+    // await-делает синхронным (работает только с async в РОДИТЕЛЬСКОЙ ФУНКЦИИ)
+    try {
+      dispatch(
+        fetchPizzas({
+          order,
+          sortBy,
+          category,
+          search,
+          currentPage
+        })
+      )
+    } catch (error) {
+      console.log('ERROR:', error)
+      alert('ошибка при получении пицц')
+    } finally {
+    }
 
     window.scrollTo(0, 0)
   }
@@ -101,14 +108,7 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {status === 'error' ? (
-        <div className="content__error-info">
-          <h2>Произошла Ошибка</h2>
-          <p>Не удалось получить пиццы, попробуйте повторить попытку позже</p>
-        </div>
-      ) : (
-        <div className="content__items">{status === 'loading' ? sceletons : pizzas}</div>
-      )}
+      <div className="content__items">{isLoading ? sceletons : pizzas}</div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   )

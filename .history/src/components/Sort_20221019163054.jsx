@@ -26,7 +26,6 @@ function Sort() {
     const handleClickoutside = event => {
       if (!event.path.includes(sortRef.current)) {
         setOpen(false)
-        console.log('click outside')
       }
     }
     document.body.addEventListener('click', handleClickoutside)

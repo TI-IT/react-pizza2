@@ -102,9 +102,9 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
-        <div className="content__error-info">
+        <div>
           <h2>Произошла Ошибка</h2>
-          <p>Не удалось получить пиццы, попробуйте повторить попытку позже</p>
+          <p>Не удалось получить пиццы</p>
         </div>
       ) : (
         <div className="content__items">{status === 'loading' ? sceletons : pizzas}</div>
