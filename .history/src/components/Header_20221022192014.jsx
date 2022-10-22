@@ -7,6 +7,7 @@ import { selectCart } from '../redux/slices/cartSlice'
 function Header() {
   const { items, totalPrice } = useSelector(selectCart)
   const location = useLocation()
+  // console.log(location)
 
   const totalCount = items.reduce((sum, item) => sum + item.count, 0)
 
@@ -23,8 +24,9 @@ function Header() {
           </div>
         </Link>
         <Search />
-        <div className="header__cart">
-          {location.pathname !== '/cart' && (
+
+        {location.pathname !== '/cart' && (
+          <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
@@ -58,8 +60,8 @@ function Header() {
               </svg>
               <span>{totalCount}</span>
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )
