@@ -8,11 +8,10 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
   )
 
   if (data.length === 0) {
-    thunkAPI.dispatch(alert('Пиццы пустые'))
     return thunkAPI.rejectWithValue('Пиццы пустые')
   }
 
-  return thunkAPI.fulfillWithValue(data)
+  return thunkAPI.fulfillWithValue(data, meta)
 })
 
 const initialState = {
@@ -34,19 +33,15 @@ const pizzaSlice = createSlice({
       state.items = []
     },
     [fetchPizzas.fulfilled]: (state, action) => {
-      console.log(action, 'fulfilled')
       state.items = action.payload
       state.status = 'success'
     },
     [fetchPizzas.rejected]: (state, action) => {
-      console.log(action, 'rejected')
       state.status = 'error'
       state.items = []
     }
   }
 })
-
-export const selectPizzaData = state => state.pizza
 
 export const { setItems } = pizzaSlice.actions
 

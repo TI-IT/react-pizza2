@@ -10,14 +10,14 @@ const Search = () => {
   const inputRef = React.useRef()
 
   const onClickClear = () => {
-    dispatch(setSearchValue(''))
+    dispatch(setSearchValue(value))
     setValue('')
     inputRef.current.focus()
   }
 
   const updateSearchValue = React.useCallback(
     debounce(str => {
-      dispatch(setSearchValue(str))
+      setSearchValue(str)
     }, 350),
     []
   )

@@ -7,8 +7,8 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
     `https://63427733ba4478d4783c44ef.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
   )
 
-  if (data.length === 0) {
-    thunkAPI.dispatch(alert('Пиццы пустые'))
+  if (data.length) {
+    thunkAPI.dispatch(alert('Hello'))
     return thunkAPI.rejectWithValue('Пиццы пустые')
   }
 
@@ -45,8 +45,6 @@ const pizzaSlice = createSlice({
     }
   }
 })
-
-export const selectPizzaData = state => state.pizza
 
 export const { setItems } = pizzaSlice.actions
 

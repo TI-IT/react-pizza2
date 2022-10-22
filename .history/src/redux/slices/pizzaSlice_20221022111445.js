@@ -8,7 +8,7 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
   )
 
   if (data.length === 0) {
-    thunkAPI.dispatch(alert('Пиццы пустые'))
+    thunkAPI.dispatch(alert('Hello'))
     return thunkAPI.rejectWithValue('Пиццы пустые')
   }
 
@@ -45,8 +45,6 @@ const pizzaSlice = createSlice({
     }
   }
 })
-
-export const selectPizzaData = state => state.pizza
 
 export const { setItems } = pizzaSlice.actions
 
