@@ -29,6 +29,7 @@ const Home: React.FC = () => {
   const onChangeCategory = (idx: number) => {
     dispatch(setCategoryId(idx))
   }
+
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
@@ -105,7 +106,7 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChangeCategory={(id: number) => onChangeCategory(id)} />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

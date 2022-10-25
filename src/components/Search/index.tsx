@@ -25,10 +25,10 @@ const Search: React.FC = () => {
     []
   )
 
-  const onChangeInput = (event: any) => {
-    setValue(event.target.value)
-    updateSearchValue(event.target.value)
-  }
+    const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={styles.root}>
