@@ -5,7 +5,6 @@ import cartEmptyImg from '../assets/img/empty-cart.png'
 
 const CartEmpty: React.FC = () => {
   return (
-    <>
       <div className="cart cart--empty">
         <h2>
           Корзина пустая <span>😕</span>
@@ -20,7 +19,6 @@ const CartEmpty: React.FC = () => {
           <span>Вернуться назад</span>
         </Link>
       </div>
-    </>
   )
 }
 
