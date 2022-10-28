@@ -8,14 +8,11 @@ export const store = configureStore({
   reducer: {
     filter,
     cart,
-    pizza
-  }
+    pizza,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>
 
 export type AppDispatch = typeof store.dispatch
 export const useAppDispatch: () => AppDispatch = useDispatch
-// export const useAppDispatch2 = () => useDispatch<AppDispatch>()
-
-console.log(useAppDispatch, 'DISPATCH')

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
+import { Sort } from './filterSlice'
 
 //Если все значения одного типа string например-сокращенно Record <ключ , значение>
 // type FetchPizzasArgs = Record<string, string>
@@ -12,22 +13,30 @@ type Pizza = {
   types: number[]
   sizes: number[]
 }
+export type SearchPizzaParams = {
+  order: string
+  sortBy: string
+  category: string
+  search: string
+  currentPage: string
+}
+
 enum Status {
   LOADING = 'loading',
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 interface PizzaSliceState {
   items: Pizza[]
   status: Status
 }
 
-export const fetchPizzas = createAsyncThunk<Pizza[], Record<string, string>>(
+export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
   'pizza/fetchPizzasStatus',
   async (params, thunkAPI: any) => {
     const { order, sortBy, category, search, currentPage } = params
     const { data } = await axios.get<Pizza[]>(
-      `https://63427733ba4478d4783c44ef.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https://63427733ba4478d4783c44ef.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
     )
 
     if (data.length === 0) {
@@ -36,23 +45,24 @@ export const fetchPizzas = createAsyncThunk<Pizza[], Record<string, string>>(
     }
 
     return thunkAPI.fulfillWithValue(data)
-  }
+  },
 )
 
 const initialState: PizzaSliceState = {
   items: [],
-  status: Status.LOADING // loading | success | error
+  status: Status.LOADING, // loading | success | error
 }
 
 const pizzaSlice = createSlice({
   name: 'pizza',
+
   initialState,
   reducers: {
     setItems(state, action: PayloadAction<Pizza[]>) {
       state.items = action.payload
-    }
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(fetchPizzas.pending, (state, action) => {
       state.status = Status.LOADING
       state.items = []
@@ -79,7 +89,7 @@ const pizzaSlice = createSlice({
     //     state.items = []
     //   }
     // }
-  }
+  },
 })
 
 export const selectPizzaData = (state: RootState) => state.pizza
