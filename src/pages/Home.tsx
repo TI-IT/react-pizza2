@@ -1,25 +1,25 @@
 import React from 'react'
 import qs from 'qs'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-
+import { useSelector } from 'react-redux'
 import {
+  FilterSliceState,
   selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters
 } from '../redux/slices/filterSlice'
-
 import Categories from '../components/Categories'
 import Sort, { sortList } from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Pagination from '../components/Pagination'
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice'
+import { useAppDispatch } from '../redux/store'
 
 const Home: React.FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const isSearch = React.useRef(false)
   const isMaunted = React.useRef(false)
 
@@ -41,13 +41,12 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : ''
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
         category,
         search,
-        currentPage
+        currentPage: String(currentPage)
       })
     )
 
@@ -66,6 +65,9 @@ const Home: React.FC = () => {
       })
       navigate(`?${queryString}`)
     }
+    if (window.location.search) {
+      dispatch(fetchPizzas({}))
+    }
     isMaunted.current = true
   }, [categoryId, sort.sortProperty, currentPage])
 
@@ -75,17 +77,14 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     if (window.location.search) {
       //параметры адресной строки преврощаем в объект -qs.parse
-      const params = qs.parse(window.location.search.substring(1))
+      const params = qs.parse(window.location.search.substring(1)) as FilterSliceState
       const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
-      dispatch(
-        setFilters({
-          ...params,
-          sort
-        })
-      )
-
-      isSearch.current = true
+      if (sort) {
+        params.sort = sort
+      }
+      dispatch(setFilters(params))
     }
+    isSearch.current = true
   }, [])
 
   //Загрузка один раз

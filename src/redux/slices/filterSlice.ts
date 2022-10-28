@@ -6,7 +6,7 @@ type Sort = {
   sortProperty: 'rating' | 'title' | 'price' | '-rating' | '-title' | '-price'
 }
 
-interface FilterSliceState {
+export interface FilterSliceState {
   searchValue: string
   categoryId: number
   currentPage: number
@@ -50,7 +50,12 @@ const filterSlice = createSlice({
 export const selectFilter = (store: RootState) => store.filter
 export const selectSort = (store: RootState) => store.filter.sort
 
-export const { setCategoryId, setSort, setCurrentPage, setFilters, setSearchValue } =
-  filterSlice.actions
+export const {
+  setCategoryId,
+  setSort,
+  setCurrentPage,
+  setFilters,
+  setSearchValue
+} = filterSlice.actions
 
 export default filterSlice.reducer
